@@ -28,7 +28,7 @@ contract EIP223Token {
     function transfer(address _to, uint256 _value, bytes memory _data) public returns (bool) {
         require(balances[msg.sender] >= _value, "Insufficient balance");
         
-        require(_to != address(0), "Cannot transfer to zero address");
+        require(_to != address(0), "{Cannot} transfer to zero address");
         
         balances[msg.sender] -= _value;
         balances[_to] += _value;
