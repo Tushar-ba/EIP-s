@@ -89,7 +89,7 @@ contract ERC1363Token is ERC20 {
             }
         }
         return true;
-    }
+    } 
 
     /// @notice Utility function to check if an address is a contract.
     function isContract(address account) internal view returns (bool) {
