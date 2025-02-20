@@ -70,7 +70,6 @@ describe("Flash Loan Contracts", function () {
     console.log("FlashLender balance AFTER flash loan:", ethers.formatUnits(lenderFinalBalance, 18), "tokens");
     console.log("FlashBorrower balance AFTER flash loan:", ethers.formatUnits(borrowerFinalBalance, 18), "tokens");
 
-
     const expectedLenderBalance = ethers.parseUnits("10000", 18) + fee;
     expect(lenderFinalBalance).to.equal(expectedLenderBalance);
     console.log("Expected FlashLender balance:", ethers.formatUnits(expectedLenderBalance, 18), "tokens");
@@ -126,23 +125,21 @@ describe("Flash Loan Contracts - Edge Cases", function () {
     const fee = (loanAmount * BigInt(feeBasisPoints)) / 10000n;
     const insufficientRepayment = ethers.parseUnits("9", 18);
 
-    console.log("Loan Amount:", loanAmount.toString());
-    console.log("Calculated Fee:", fee.toString());
-    console.log("Total Required Repayment:", (loanAmount + fee).toString());
-    console.log("Borrower Will Repay:", insufficientRepayment.toString());
+    console.log("Loan Amount:", ethers.formatUnits(loanAmount, 18));
+    console.log("Calculated Fee:", ethers.formatUnits(fee, 18));
+    console.log("Total Required Repayment:", ethers.formatUnits(loanAmount + fee, 18));
+    console.log("Borrower Will Repay:", ethers.formatUnits(insufficientRepayment, 18));
 
     await testToken.transfer(flashBorrower.target, insufficientRepayment);
-    console.log(ethers.formatEther(await testToken.balanceOf(flashBorrower.target)));
+    console.log("FlashBorrower balance:", ethers.formatUnits(await testToken.balanceOf(flashBorrower.target), 18));
     console.log("Transferred insufficient repayment amount to borrower.");
 
     await expect(
-        flashBorrower.executeOperation(flashLender.target, testToken.target, loanAmount, "0x")
-      ).to.be.reverted;
-      
+      flashBorrower.executeOperation(flashLender.target, testToken.target, loanAmount, "0x")
+    ).to.be.reverted;
 
     console.log("Test Passed: The loan repayment was not enough and reverted.");
-});
-
+  });
 
   it("should revert if an unauthorized caller tries to borrow directly from lender", async function () {
     const loanAmount = ethers.parseUnits("1000", 18);
@@ -157,4 +154,3 @@ describe("Flash Loan Contracts - Edge Cases", function () {
     ).to.be.reverted;
   });
 });
-
