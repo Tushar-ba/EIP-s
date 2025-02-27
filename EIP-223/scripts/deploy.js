@@ -17,5 +17,11 @@ async function main(){
     EIP223Disabled = await EIP223DisabledFactory.deploy();
     await EIP223Disabled.waitForDeployment();
     console.log("EIPNonReceiver contract deployed to:-",EIP223Disabled.target);
-
 }
+
+main().then(()=>{
+    console.log("Deployment successful")
+}).catch(()=>{
+    console.error('Deployment failed:', error);
+    process.exit(1);
+})

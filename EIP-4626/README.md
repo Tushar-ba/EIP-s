@@ -164,3 +164,65 @@ By reviewing the console logs (using `ethers.formatUnits`) in your tests, you ca
 ---
 
 This documentation should serve as a comprehensive guide to understanding the design, implementation, and math behind your yield-generating vault system.
+
+
+
+Yes! You’ve got the **core mechanics right**, but let's refine the reward calculation to ensure clarity.
+
+---
+
+## **Step-by-Step Breakdown**
+### **1️⃣ Deposit**
+- You deposit **1,000 TestTokens** into the `MyYieldVault`.
+- You receive **1,000 VaultTokens** (representing your share in the vault).
+- You are entitled to rewards **proportional to your share** of the total VaultTokens.
+
+### **2️⃣ Withdraw 500 TestTokens**
+- You burn **500 VaultTokens**.
+- You receive **500 TestTokens back**.
+- Now, you hold:
+  - **500 TestTokens in your wallet**.
+  - **500 VaultTokens still in the vault**.
+- Your stake in the vault is now **50% of what it was before**.
+
+### **3️⃣ Reward Calculation (Before Withdrawal)**
+- Let’s assume **1 reward token is distributed per second** across all VaultToken holders.
+- Initially, you had **1,000 VaultTokens**.
+- You would receive **1 RWD per second**.
+
+### **4️⃣ 5 Seconds Pass**
+- Before withdrawing:  
+  - You still had **1,000 VaultTokens** → **you get 5 RWD**.
+- After withdrawing **500 VaultTokens** (assuming you withdrew immediately at 0 sec and waited for 5 secs):  
+  - You now have **500 VaultTokens** (50% of what you had).
+  - Your share of rewards is now **50% of the total distribution**.
+  - Instead of getting **1 RWD per second**, you now get **0.5 RWD per second**.
+
+### **5️⃣ How Much Rewards Do You Get?**
+| Time Passed | Vault Tokens Held | Reward Rate (RWD/sec) | Total Earned |
+|------------|----------------|------------------|-------------|
+| 0s → 5s (before withdrawal) | 1,000 | 1.0 | **5.0 RWD** |
+| 5s → 10s (after withdrawal) | 500 | 0.5 | **2.5 RWD** |
+
+### **6️⃣ Final Balances**
+- **500 TestTokens (withdrawn)**
+- **500 VaultTokens (remaining)**
+- **7.5 RWD Tokens earned in total**  
+  - **5 RWD before withdrawal**
+  - **2.5 RWD after withdrawal**
+
+---
+
+## **✅ Summary**
+1. **Depositing 1,000 TestTokens gives you 1,000 VaultTokens.**
+2. **Withdrawing 500 TestTokens burns 500 VaultTokens.**
+3. **Rewards are distributed based on VaultToken share.**
+4. **Before withdrawal, you earn 1 RWD per second.**
+5. **After withdrawing half, you now earn 0.5 RWD per second.**
+6. **After 10 seconds (5 before & 5 after withdrawing), you have earned 7.5 RWD.**
+
+This **dynamic reward distribution** ensures fairness in yield farming. The more VaultTokens you hold, the larger your share of rewards! 🚀
+
+---
+
+Let me know if you need any clarifications or want to see how this looks in Solidity! 😃
