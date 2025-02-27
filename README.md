@@ -9,7 +9,7 @@ This document provides a brief overview of several Ethereum Improvement Proposal
 * **EIP-4626:** A standard for tokenized vaults.
 * **EIP-7575:** An evolution of vault standards addressing emerging needs.
 
-Each section below summarizes the purpose, use cases, applications, and—where applicable—the advantages over traditional ERC standards.
+Each section below summarizes the overview, core functionalities, intended use cases, applications, advantages over traditional ERC standards, and provides a link to the official EIP.
 
 ---
 
@@ -18,62 +18,86 @@ Each section below summarizes the purpose, use cases, applications, and—where 
 **Overview:**  
 EIP-223 was proposed to address an issue with ERC-20 tokens: when tokens are sent to a contract that doesn’t implement a fallback, the tokens can be lost. It adds a mechanism to prevent such losses by reverting the transfer if the recipient contract cannot handle the tokens.
 
-**Use Case:**  
-* **Secure Transfers:** Ensures that tokens are not accidentally sent to incompatible contracts, reducing the risk of irrecoverable losses.
+**Core Functionalities:**  
+- Validates recipient contracts for token transfer compatibility.  
+- Prevents accidental token loss by reverting unsafe transfers.
+
+**Intended Use Cases:**  
+- Secure token transfers between accounts and contracts.  
+- Ensuring that tokens are only sent to addresses capable of handling them.
 
 **Applications:**  
-* **Gaming Platforms:** Secure in-game asset transfers.  
-* **DeFi Wallets:** Ensuring safe token handling.  
-* **Example:** *Trust Wallet*, *MyEtherWallet*.
+- **Gaming Platforms:** Secure in-game asset transfers.  
+- **DeFi Wallets:** Ensuring safe token handling.  
+- **Examples:** *Trust Wallet*, *MyEtherWallet*.
 
 **Advantage Over Traditional ERC Standards:**  
-EIP-223 addresses the inherent vulnerability in ERC-20 where tokens can be lost if sent to contracts lacking proper fallback functions. This added safety layer is critical in preventing accidental asset loss.
+- Addresses the vulnerability in ERC-20 where tokens can be irrecoverably lost if sent to non-compliant contracts.
+
+**More Info:**  
+[EIP-223](https://eips.ethereum.org/EIPS/eip-223)
 
 ---
 
 ## EIP-777: Advanced Token Standard with Operators and Hooks
 
 **Overview:**  
-EIP-777 allows token holders to designate operators for their tokens and enables smart contracts to react to transfers through hooks.
+EIP-777 allows token holders to designate operators for their tokens and enables smart contracts to react to token transfers through hooks.
 
-**Use Case:**  
-* **Automated Interactions:** Ideal for scenarios requiring subscriptions, notifications, or complex token management.
+**Core Functionalities:**  
+- Introduces operators to manage tokens on behalf of the owner.  
+- Provides hooks that enable contracts to execute logic on sending and receiving tokens.
+
+**Intended Use Cases:**  
+- Automated token interactions in subscription models and notifications.  
+- Complex token management for decentralized applications.
 
 **Applications:**  
-* **Subscription Services:** Automate recurring payments.  
-* **DeFi Lending Platforms:** Enhanced token interactions with lending pools.  
-* **Example:** *PoolTogether*, *Gnosis Safe*.
+- **Subscription Services:** Automate recurring payments.  
+- **DeFi Lending Platforms:** Enhanced token interactions with lending pools.  
+- **Examples:** *PoolTogether*, *Gnosis Safe*.
 
 **Advantage Over Traditional ERC Standards:**  
-Unlike ERC-20, which offers limited interaction capabilities, EIP-777 introduces operators and hooks. This empowers developers to implement more automated and interactive token workflows, leading to improved security and flexibility.
+- Offers greater flexibility and interactivity than ERC-20 by supporting operators and hooks, which enable more dynamic and automated workflows.
+
+**More Info:**  
+[EIP-777](https://eips.ethereum.org/EIPS/eip-777)
 
 ---
 
 ## EIP-1363: Payable Token Standard
 
 **Overview:**  
-EIP-1363 builds on the ERC-20 interface by allowing tokens to be transferred and, in the same transaction, trigger a callback function on the recipient contract. This “payable token” mechanism simplifies processes that require both transfer and subsequent action.
+EIP-1363 builds on the ERC-20 interface by allowing tokens to be transferred and, in the same transaction, trigger a callback function on the recipient contract.
 
-**Use Case:**  
-* **Integrated Payment Systems:** Streamlines operations like payment-triggered actions (e.g., purchasing goods or services) without requiring multiple transactions.
+**Core Functionalities:**  
+- Combines token transfer with an immediate callback.  
+- Integrates payment and contract interaction within a single atomic transaction.
+
+**Intended Use Cases:**  
+- Streamlining on-chain payment processes.  
+- Enabling immediate post-transfer actions such as service activations or asset purchases.
 
 **Applications:**  
-* **E-commerce Platforms:** Direct token-based payments.  
-* **NFT Marketplaces:** Integrated token payments with smart contract actions.  
-* **Example:** *OpenSea*, *Rarible*.
+- **E-commerce Platforms:** Direct token-based payments.  
+- **NFT Marketplaces:** Integrated token payments triggering additional actions.  
+- **Examples:** *OpenSea*, *Rarible*.
 
 **Advantage Over Traditional ERC Standards:**  
-EIP-1363 reduces the need for additional transactions by combining token transfer and callback functionality. This integration minimizes transaction overhead and simplifies on-chain payment execution compared to the traditional multi-step process in ERC-20.
+- Reduces transaction overhead by eliminating the need for separate approval and execution steps found in ERC-20 transfers.
+
+**More Info:**  
+[EIP-1363](https://eips.ethereum.org/EIPS/eip-1363)
 
 ---
 
 ### Differences Between EIP-223, EIP-777, and EIP-1363
 
-| Feature                | EIP-223         | EIP-777         | EIP-1363         |
-|------------------------|-----------------|-----------------|------------------|
-| Prevents Token Loss    | ✅              | ❌              | ❌               |
-| Supports Operators     | ❌              | ✅              | ❌               |
-| Callback on Transfer   | ❌              | ✅              | ✅               |
+| Feature                | EIP-223         | EIP-777                 | EIP-1363         |
+|------------------------|-----------------|-------------------------|------------------|
+| Prevents Token Loss    | ✅              | ❌                      | ❌               |
+| Supports Operators     | ❌              | ✅                      | ❌               |
+| Callback on Transfer   | ❌              | ✅                      | ✅               |
 | Ideal Use Case         | Secure Transfers| Automated Token Management | Payment Execution |
 
 ---
@@ -81,54 +105,78 @@ EIP-1363 reduces the need for additional transactions by combining token transfe
 ## EIP-3156: Flash Loan Standard
 
 **Overview:**  
-EIP-3156 standardizes flash loans—uncollateralized loans that must be repaid within a single transaction. This ensures that the entire loan cycle (borrowing and repayment) happens atomically.
+EIP-3156 standardizes flash loans—uncollateralized loans that must be repaid within a single transaction. This ensures the entire loan cycle (borrowing and repayment) happens atomically.
 
-**Use Case:**  
-* **DeFi Operations:** Enables arbitrage, collateral swaps, and liquidation strategies without requiring upfront collateral.
+**Core Functionalities:**  
+- Facilitates uncollateralized borrowing and repayment within one transaction.  
+- Ensures atomicity, preventing incomplete loan cycles.
+
+**Intended Use Cases:**  
+- Enabling arbitrage opportunities in decentralized finance.  
+- Supporting collateral swaps and liquidation strategies.
 
 **Applications:**  
-* **Decentralized Exchanges:** Flash swaps and arbitrage opportunities.  
-* **Lending Protocols:** Flash loan execution for liquidations.  
-* **Example:** *Aave*, *dYdX*.
+- **Decentralized Exchanges:** Flash swaps and arbitrage opportunities.  
+- **Lending Protocols:** Secure flash loan execution for liquidations.  
+- **Examples:** *Aave*, *dYdX*.
 
 **Advantage Over Traditional ERC Standards:**  
-Traditional ERC-20 tokens do not natively support flash loans. EIP-3156 introduces a standardized mechanism that allows developers to safely implement rapid, collateral-free borrowing in a single atomic transaction, unlocking new DeFi strategies.
+- Introduces a standardized mechanism for flash loans—a feature not supported by traditional ERC-20 tokens—unlocking new DeFi strategies.
+
+**More Info:**  
+[EIP-3156](https://eips.ethereum.org/EIPS/eip-3156)
 
 ---
 
 ## EIP-4626: Tokenized Vault Standard
 
 **Overview:**  
-EIP-4626 defines a common interface for tokenized vaults. It standardizes the way assets are deposited into vaults and shares are minted to represent a claim on the underlying assets.
+EIP-4626 defines a common interface for tokenized vaults. It standardizes the processes for asset deposits, withdrawals, and share issuance, representing a claim on the underlying assets.
 
-**Use Case:**  
-* **Yield-Bearing Protocols:** Simplifies integration across various DeFi platforms by standardizing vault operations such as deposits, withdrawals, and share calculations.
+**Core Functionalities:**  
+- Provides a unified interface for vault operations.  
+- Standardizes asset deposit, withdrawal, and yield calculations.
+
+**Intended Use Cases:**  
+- Integrating yield-bearing protocols seamlessly across DeFi platforms.  
+- Simplifying the development of interoperable vault solutions.
 
 **Applications:**  
-* **Yield Aggregators:** Standardized staking vaults for enhanced user experience.  
-* **DeFi Asset Management:** Automated and interoperable portfolio management.  
-* **Example:** *Yearn Finance*, *Beefy Finance*.
+- **Yield Aggregators:** Standardized staking vaults enhancing user experience.  
+- **DeFi Asset Management:** Automated and interoperable portfolio management.  
+- **Examples:** *Yearn Finance*, *Beefy Finance*.
 
 **Advantage Over Traditional ERC Standards:**  
-While ERC-20 provides a generic interface for fungible tokens, EIP-4626 creates a focused standard for vault operations. This specialization improves composability and interoperability between yield-bearing protocols and asset management systems.
+- Focuses on asset management and yield generation, offering greater composability and interoperability compared to the generic ERC-20 standard.
+
+**More Info:**  
+[EIP-4626](https://eips.ethereum.org/EIPS/eip-4626)
 
 ---
 
 ## EIP-7575: Enhanced Vault Standard (Evolution of Tokenized Vaults)
 
 **Overview:**  
-EIP-7575 builds upon EIP-4626 by introducing advanced fee structures, better asset accounting, and improved DeFi integrations.
+EIP-7575 builds upon EIP-4626 by introducing advanced features such as dynamic fee structures and enhanced accounting methods, making it suitable for next-generation vaults.
 
-**Use Case:**  
-* **Next-Generation Vaults:** Provides a robust framework for managing yield-bearing assets with enhanced flexibility and efficiency.
+**Core Functionalities:**  
+- Integrates dynamic fee mechanisms into vault operations.  
+- Provides enhanced asset accounting and improved integration with complex DeFi protocols.
+
+**Intended Use Cases:**  
+- Supporting advanced yield strategies and dynamic reward distribution.  
+- Optimizing asset management in decentralized index funds and other complex financial products.
 
 **Applications:**  
-* **Advanced Yield Strategies:** Supports dynamic reward distribution and fee management.  
-* **DeFi Index Funds:** Optimizes asset rebalancing and fee structures.  
-* **Example:** *Idle Finance*, *Enzyme Finance*.
+- **Advanced Yield Strategies:** Enables dynamic reward distribution and fee management.  
+- **DeFi Index Funds:** Facilitates better asset rebalancing and fee optimizations.  
+- **Examples:** *Idle Finance*, *Enzyme Finance*.
 
 **Advantage Over Traditional ERC Standards:**  
-EIP-7575 goes beyond the basic vault functionalities of ERC-20 by incorporating dynamic fees and enhanced accounting features. These improvements facilitate more complex and efficient asset management solutions in DeFi, addressing the limitations of traditional vault implementations.
+- Extends basic vault functionality by incorporating advanced financial mechanisms, offering enhanced flexibility and efficiency beyond what traditional ERC-20 tokens can support.
+
+**More Info:**  
+[EIP-7575](https://eips.ethereum.org/EIPS/eip-7575)
 
 ---
 
@@ -149,6 +197,6 @@ These EIPs represent significant advancements in Ethereum’s token and DeFi eco
 
 * **EIP-223, EIP-777, and EIP-1363** enhance token transfer security and functionality. They provide extra advantages over traditional ERC-20 tokens by incorporating safety mechanisms, automated interactions, and integrated payment callbacks.
 * **EIP-3156** standardizes flash loans, making them a reliable and secure tool for rapid, collateral-free borrowing—a feature not supported by conventional ERC standards.
-* **EIP-4626 and EIP-7575** set the stage for tokenized vaults, with EIP-7575 offering additional features like dynamic fees and improved accounting, thus enabling sophisticated asset management strategies beyond what ERC-20 can offer.
+* **EIP-4626 and EIP-7575** set the stage for tokenized vaults, with EIP-7575 offering additional features like dynamic fees and improved accounting. This enables sophisticated asset management strategies that go beyond the capabilities of ERC-20.
 
 By adopting these standards, projects can achieve improved efficiency, security, and interoperability, paving the way for innovative decentralized applications that overcome the limitations of traditional ERC tokens.
