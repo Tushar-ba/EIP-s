@@ -203,3 +203,15 @@ contract TokenHolder is IERC777Recipient {
     }
 }
 ```
+
+In EIP-777, the standard defines two hooks that enable contracts to react to token transfers:
+
+- **tokensToSend:**  
+  - **When it's called:** This hook is invoked *before* the tokens are actually transferred out of the sender’s account.  
+  - **Purpose:** It allows the sender’s contract (or an operator acting on its behalf) to perform any necessary checks, validations, or state updates prior to the transfer. For example, a contract might want to ensure that a transfer doesn’t violate certain conditions or update its internal accounting before tokens leave.
+
+- **tokensReceived:**  
+  - **When it's called:** This hook is triggered *after* the tokens have been transferred to the recipient’s account.  
+  - **Purpose:** It enables the recipient’s contract to react immediately to the receipt of tokens. This can be useful for initiating subsequent actions like triggering a service, logging the receipt, or updating internal state based on the incoming transfer.
+
+Both hooks are registered via the ERC1820 registry. If either the sender or recipient is a contract and has registered an implementer for the corresponding hook interface, the token contract will call the hook function at the appropriate time during a token transfer.
