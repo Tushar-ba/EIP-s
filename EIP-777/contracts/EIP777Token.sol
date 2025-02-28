@@ -2,7 +2,7 @@
 pragma solidity 0.8.27;
 
 import {IERC1820Registry } from "../Interfaces/IERC1820Registry.sol";
-import {IERC777Recipient } from "../Interfaces/IERC777Recipient .sol";
+import {IERC777Recipient } from "../Interfaces/IERC777Recipient.sol";
 import {IERC777Sender } from "../Interfaces/IERC777Sender.sol";
 
 contract EIP777Token {
