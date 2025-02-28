@@ -48,7 +48,7 @@ async function setTotalSupply(tokenAddress, newSupply) {
 describe("EIP777Token", function () {
   let EIP777Token, token;
   let owner, addr1, addr2;
-  //const expectedRegistryAddress = "0x1820a4B7618BdE71Dce8cdc73aAB6C95905faD24"; only for mainnet
+  const expectedRegistryAddress = "0x1820a4B7618BdE71Dce8cdc73aAB6C95905faD24"; //only for mainnet
 
   beforeEach(async function () {
     // Get test accounts
