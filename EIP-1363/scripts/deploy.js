@@ -17,7 +17,7 @@ async function main (){
     const ERC1363SpenderMockFactory = await ethers.getContractFactory('ERC1363ReceiverMock',owner);
     ERC1363SpenderMock = await ERC1363SpenderMockFactory.deploy();
     await ERC1363SpenderMock.waitForDeployment();
-    console.log(`Receiver contract address ${ERC1363SpenderMock.target}`);
+    console.log(`Spender contract address ${ERC1363SpenderMock.target}`);
 
     const ERC1363TokenFactory = await ethers.getContractFactory('ERC1363Token');
     ERC1363Token = await ERC1363TokenFactory.deploy("Tushar",'TBA',ethers.parseEther("1"));
@@ -29,4 +29,5 @@ main().then(()=>{
     console.log("Deployment successful")
 }).catch((err)=>{
     console.log(err);
+    process.exit(1);
 })

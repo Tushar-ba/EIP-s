@@ -18,4 +18,5 @@ main().then(()=>{
     console.log("Deployment successfull");
 }).catch((err)=>{
     console.log("Cannot deploy the contract",err);
+    process.exit(1);
 })

@@ -22,4 +22,5 @@ main().then(()=>{
     console.log("Deployed successfully");
 }).catch((err)=>{
     console.log(err);
+    process.exit(1);
 })
