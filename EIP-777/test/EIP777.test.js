@@ -153,6 +153,20 @@ describe("EIP777Token", function () {
       await expect(token.connect(owner).send(nonImplementing.target, 100n, "0x"))
         .to.be.revertedWith("ERC777: recipient contract must be registered");
     });
+
+    it("should allow sending tokens to an EOA", async function () {
+      const { token, owner, user2 } = await loadFixture(deployContractsFixture);
+      const initialOwnerBalance = await token.balanceOf(owner.address);
+      const initialUser2Balance = await token.balanceOf(user2.address);
+      const amount = 100n;
+
+      await expect(token.connect(owner).send(user2.address, amount, "0x"))
+        .to.emit(token, "Sent")
+        .withArgs(owner.address, owner.address, user2.address, amount, "0x", "0x");
+
+      expect(await token.balanceOf(owner.address)).to.equal(initialOwnerBalance - amount);
+      expect(await token.balanceOf(user2.address)).to.equal(initialUser2Balance + amount);
+    });
   });
 
   // Operator Send
@@ -185,10 +199,24 @@ describe("EIP777Token", function () {
 
     it("should revert when operator sends to nonImplementing contract", async function () {
       const { token, owner, operator, nonImplementing } = await loadFixture(deployContractsFixture);
-      // Owner authorizes operator (operator is also a default operator, but we’ll explicitly authorize for clarity)
       await token.connect(owner).authorizeOperator(operator.address);
       await expect(token.connect(operator).operatorSend(owner.address, nonImplementing.target, 100n, "0x", "0x"))
         .to.be.revertedWith("ERC777: recipient contract must be registered");
+    });
+
+    it("should allow operator sending tokens to an EOA", async function () {
+      const { token, owner, user2, operator } = await loadFixture(deployContractsFixture);
+      const initialOwnerBalance = await token.balanceOf(owner.address);
+      const initialUser2Balance = await token.balanceOf(user2.address);
+      const amount = 100n;
+
+      await token.connect(owner).authorizeOperator(operator.address);
+      await expect(token.connect(operator).operatorSend(owner.address, user2.address, amount, "0x", "0x"))
+        .to.emit(token, "Sent")
+        .withArgs(operator.address, owner.address, user2.address, amount, "0x", "0x");
+
+      expect(await token.balanceOf(owner.address)).to.equal(initialOwnerBalance - amount);
+      expect(await token.balanceOf(user2.address)).to.equal(initialUser2Balance + amount);
     });
   });
 
