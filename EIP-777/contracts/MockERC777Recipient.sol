@@ -5,8 +5,7 @@ import "../Interfaces/IERC777Recipient.sol";
 import "../Interfaces/IERC1820Registry.sol";
 
 contract MockERC777Recipient is IERC777Recipient {
-    IERC1820Registry private constant _ERC1820_REGISTRY =
-        IERC1820Registry(0x1820a4B7618BdE71Dce8cdc73aAB6C95905faD24);
+    IERC1820Registry private _ERC1820_REGISTRY; // Made non-constant to allow constructor parameter
 
     bool public shouldRevert;
     event TokensReceived(
@@ -18,7 +17,8 @@ contract MockERC777Recipient is IERC777Recipient {
         bytes operatorData
     );
 
-    constructor() {
+    constructor(address registryAddress) {
+        _ERC1820_REGISTRY = IERC1820Registry(registryAddress);
         // Register the contract as an ERC777 recipient
         _ERC1820_REGISTRY.setInterfaceImplementer(
             address(this),
