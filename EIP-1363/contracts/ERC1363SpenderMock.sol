@@ -5,12 +5,18 @@ import {IERC1363Spender} from "../Interface/IERC1363Spender.sol";
 
 contract ERC1363SpenderMock is IERC1363Spender {
     event ApprovalReceived(address owner, uint256 value, bytes data);
+    bool public isTrue;
+
+    function calling() public {
+         isTrue ? isTrue = false : isTrue = true;
+    }
 
     function onApprovalReceived(address owner, uint256 value, bytes calldata data)
         external
         override
         returns (bytes4)
-    {
+    {   
+        calling();
         emit ApprovalReceived(owner, value, data);
         return ERC1363_APPROVED;
     }

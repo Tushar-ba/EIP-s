@@ -63,6 +63,16 @@ describe("ERC1363Token", function () {
       expect(postReceiverBalance).to.equal(amount);
     });
 
+    it("Should Toggel isTrue on transferAndCall",async function (){
+      const amount = ethers.parseUnits("100", 18);
+      const initialState = await receiverMock.isTrue();
+      console.log(initialState);
+      await erc1363Token.transferAndCall(receiverMock.target,amount);
+      const ToggeledState = await receiverMock.isTrue();
+      console.log(ToggeledState);
+      expect(ToggeledState).to.be.true;
+    })
+
     it("should fail when recipient does not implement onTransferReceived", async function () {
       const amount = ethers.parseUnits("50", 18);
       console.log("\nTest: Transfer and call to non-implementing contract (DummyContract)");
@@ -181,6 +191,18 @@ describe("ERC1363Token", function () {
       console.log("Post-approval allowance:", ethers.formatEther(postAllowance), "TT");
       console.log("Approval successful!");
     });
+
+    it("Should Toggel isTrue on transferAndCall",async function (){
+      const amount = ethers.parseUnits("100", 18);
+      //await erc1363Token.allowance(owner.address, spenderMock.target);
+      const initialState = await spenderMock.isTrue();
+      console.log(initialState);
+      await erc1363Token.approveAndCall(spenderMock.target,amount);
+      const ToggeledState = await spenderMock.isTrue();
+      console.log("After toggeling");
+      console.log(ToggeledState);
+      expect(ToggeledState).to.be.true;
+    })
 
     it("should fail when spender does not implement onApprovalReceived", async function () {
       const amount = ethers.parseUnits("100", 18);
